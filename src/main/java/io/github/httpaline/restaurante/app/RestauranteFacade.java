@@ -1,6 +1,7 @@
 package io.github.httpaline.restaurante.app;
 
 import io.github.httpaline.restaurante.cardapio.Lanche;
+import io.github.httpaline.restaurante.cardapio.LancheFactory;
 import io.github.httpaline.restaurante.pedido.GerenciadorPedidos;
 import io.github.httpaline.restaurante.pedido.Pedido;
 
@@ -24,9 +25,9 @@ public class RestauranteFacade {
 
     public void adicionarLanche(Pedido pedido, int opcao) {
         Lanche lanche = switch (opcao) {
-            case 1 -> new Lanche("X-Burger", 16.0);
-            case 2 -> new Lanche("X-Salada", 18.0);
-            case 3 -> new Lanche("X-Bacon", 22.0);
+            case 1 -> LancheFactory.xBurguer();
+            case 2 -> LancheFactory.xSalada();
+            case 3 -> LancheFactory.xBacon();
             default -> throw new IllegalArgumentException("Opção de lanche inválida.");
         };
 
