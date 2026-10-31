@@ -1,5 +1,6 @@
 package io.github.httpaline.restaurante.pedido;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class GerenciadorPedidos {
@@ -25,8 +26,8 @@ public class GerenciadorPedidos {
         return total;
     }
 
-    public HashMap<Integer, Pedido> getPedidos() {
-        return pedidos;
+    public Collection<Pedido> getPedidos() {
+        return pedidos.values();
     }
 }
 
