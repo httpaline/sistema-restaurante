@@ -29,7 +29,7 @@ public class Pedido {
         return nomeCliente;
     }
 
-    void adicionarItem(Lanche lanche) {
+    public void adicionarItem(Lanche lanche) {
         itens.add(lanche);
     }
 
@@ -37,7 +37,7 @@ public class Pedido {
         return itens;
     }
 
-    double calcularTotal() {
+    public double calcularTotal() {
         double soma = 0.0;
         for (Lanche lanche : itens) {
             soma += lanche.getPreco();
