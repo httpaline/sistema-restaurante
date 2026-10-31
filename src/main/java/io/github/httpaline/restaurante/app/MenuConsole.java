@@ -1,5 +1,6 @@
 package io.github.httpaline.restaurante.app;
 
+import io.github.httpaline.restaurante.cardapio.ItemCardapio;
 import io.github.httpaline.restaurante.cardapio.Lanche;
 import io.github.httpaline.restaurante.pedido.Pedido;
 
@@ -69,8 +70,8 @@ public class MenuConsole {
         System.out.println(LINHA_SIMPLES);
 
         int numeroItem = 1;
-        for (Lanche lanche : pedido.getItens()) {
-            System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, lanche.getNome(), lanche.getPreco());
+        for (ItemCardapio item : pedido.getItens()) {
+            System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, item.getDescricao(), item.getPreco());
             numeroItem++;
         }
 

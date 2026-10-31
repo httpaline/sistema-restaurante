@@ -1,5 +1,6 @@
 package io.github.httpaline.restaurante.pedido;
 
+import io.github.httpaline.restaurante.cardapio.ItemCardapio;
 import io.github.httpaline.restaurante.cardapio.Lanche;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 public class Pedido {
     private final int numero;
     private String nomeCliente;
-    ArrayList<Lanche> itens = new ArrayList<>();
+    ArrayList<ItemCardapio> itens = new ArrayList<>();
 
     public Pedido(int numero, String nomeCliente) {
         this.numero = numero;
@@ -29,17 +30,17 @@ public class Pedido {
         return nomeCliente;
     }
 
-    public void adicionarItem(Lanche lanche) {
+    public void adicionarItem(ItemCardapio lanche) {
         itens.add(lanche);
     }
 
-    public ArrayList<Lanche> getItens() {
+    public ArrayList<ItemCardapio> getItens() {
         return itens;
     }
 
     public double calcularTotal() {
         double soma = 0.0;
-        for (Lanche lanche : itens) {
+        for (ItemCardapio lanche : itens) {
             soma += lanche.getPreco();
         }
         return soma;

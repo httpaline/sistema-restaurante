@@ -1,8 +1,22 @@
 package io.github.httpaline.restaurante.cardapio;
 
-public class Lanche {
+public class Lanche implements ItemCardapio {
     private String nome;
     private double preco;
+
+    @Override
+    public String getDescricao() {
+        return nome;
+    }
+
+    @Override
+    public double getPreco() {
+        return preco;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 
     public Lanche(String nome, double preco) {
         setNome(nome);
@@ -21,13 +35,5 @@ public class Lanche {
             throw new IllegalArgumentException("O preço não pode ser negativo.");
         }
         this.preco = preco;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public double getPreco() {
-        return preco;
     }
 }
