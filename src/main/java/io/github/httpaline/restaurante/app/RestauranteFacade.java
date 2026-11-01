@@ -1,7 +1,6 @@
 package io.github.httpaline.restaurante.app;
 
-import io.github.httpaline.restaurante.cardapio.Lanche;
-import io.github.httpaline.restaurante.cardapio.LancheFactory;
+import io.github.httpaline.restaurante.cardapio.*;
 import io.github.httpaline.restaurante.pedido.GerenciadorPedidos;
 import io.github.httpaline.restaurante.pedido.Pedido;
 
@@ -23,14 +22,24 @@ public class RestauranteFacade {
         return gerenciador.calcularTotalDoDia();
     }
 
-    public void adicionarLanche(Pedido pedido, int opcao) {
-        Lanche lanche = switch (opcao) {
+    public Lanche criarLanche(int opcao) {
+        return switch (opcao) {
             case 1 -> LancheFactory.xBurguer();
             case 2 -> LancheFactory.xSalada();
             case 3 -> LancheFactory.xBacon();
             default -> throw new IllegalArgumentException("Opção de lanche inválida.");
         };
+    }
 
-        pedido.adicionarItem(lanche);
+    public void adicionarItem(Pedido pedido, ItemCardapio item) {
+       pedido.adicionarItem(item);
+    }
+
+    public ItemCardapio adicionarAdicional(ItemCardapio item, int opcao) {
+        return switch (opcao) {
+            case 1 -> new ComCheddar(item);
+            case 2 -> new ComBaconExtra(item);
+            default -> throw new IllegalArgumentException("Opção inválida!");
+        };
     }
 }

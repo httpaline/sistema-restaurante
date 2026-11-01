@@ -1,16 +1,14 @@
 package io.github.httpaline.restaurante.app;
 
 import io.github.httpaline.restaurante.cardapio.ItemCardapio;
-import io.github.httpaline.restaurante.cardapio.Lanche;
 import io.github.httpaline.restaurante.pedido.Pedido;
-
 import java.util.Collection;
 import java.util.Scanner;
 
 public class MenuConsole {
     private static final String LINHA_DUPLA = "================================";
     private static final String LINHA_SIMPLES = "--------------------------------";
-    Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public void exibirMenu() {
         System.out.println();
@@ -28,14 +26,27 @@ public class MenuConsole {
 
     public void exibirCardapio() {
         System.out.println();
-        System.out.println(LINHA_SIMPLES);
+        System.out.println(LINHA_DUPLA);
         System.out.println("            CARDÁPIO");
-        System.out.println(LINHA_SIMPLES);
+        System.out.println(LINHA_DUPLA);
         System.out.println(" [1] X-Burger          R$  16,00");
         System.out.println(" [2] X-Salada          R$  18,00");
         System.out.println(" [3] X-Bacon           R$  22,00");
-        System.out.println(LINHA_SIMPLES);
+        System.out.println(LINHA_DUPLA);
         System.out.print(" Escolha o lanche: ");
+    }
+
+    public void exibirAdicionais(){
+        System.out.println();
+        System.out.println(LINHA_DUPLA);
+        System.out.println("           ADICIONAIS");
+        System.out.println(LINHA_DUPLA);
+        System.out.println(" [1] Cheddar         + R$   4,00");
+        System.out.println(" [2] Bacon extra     + R$   6,00");
+        System.out.println(LINHA_SIMPLES);
+        System.out.println(" [0] Nenhum / finalizar");
+        System.out.println(LINHA_DUPLA);
+        System.out.print(" Escolha o adicional: ");
     }
 
     public int lerOpcao() {
@@ -45,19 +56,19 @@ public class MenuConsole {
     }
 
     public void exibirMensagem(String mensagem) {
-        System.out.println(mensagem);
+        System.out.println(" " + mensagem);
     }
 
     public boolean perguntarMaisItem() {
         System.out.println();
-        System.out.print("Adicionar mais um item? (S/N): ");
+        System.out.print(" Adicionar mais um item? (S/N): ");
         String resposta = sc.nextLine();
         return resposta.equalsIgnoreCase("S");
     }
 
     public String lerNomeCliente() {
         System.out.println();
-        System.out.print("Nome do cliente: ");
+        System.out.print(" Nome do cliente: ");
         return sc.nextLine();
     }
 
@@ -71,7 +82,13 @@ public class MenuConsole {
 
         int numeroItem = 1;
         for (ItemCardapio item : pedido.getItens()) {
-            System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, item.getDescricao(), item.getPreco());
+            String[] partes = item.getDescricao().split(" \\+ ");
+            System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, partes[0], item.getPreco());
+
+            for(int i=1; i<partes.length;i++){
+                System.out.println("      + " + partes[i]);
+            }
+
             numeroItem++;
         }
 
