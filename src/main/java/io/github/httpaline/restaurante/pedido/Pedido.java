@@ -1,7 +1,6 @@
 package io.github.httpaline.restaurante.pedido;
 
 import io.github.httpaline.restaurante.cardapio.ItemCardapio;
-import io.github.httpaline.restaurante.cardapio.Lanche;
 
 import java.util.ArrayList;
 
