@@ -5,7 +5,7 @@ import io.github.httpaline.restaurante.pedido.GerenciadorPedidos;
 import io.github.httpaline.restaurante.pedido.Pedido;
 
 import java.util.Collection;
-
+import java.util.Set;
 
 public class RestauranteFacade {
     private final GerenciadorPedidos gerenciador = new GerenciadorPedidos();
@@ -42,4 +42,18 @@ public class RestauranteFacade {
             default -> throw new IllegalArgumentException("Opção inválida!");
         };
     }
+
+    public void retirarIngredientes(Lanche lanche, Set<Integer> ingredientes){
+        for(int numero : ingredientes){
+            switch (numero){
+                case 1 -> lanche.setQueijo(false);
+                case 2 -> lanche.setAlface(false);
+                case 3 -> lanche.setTomate(false);
+                case 4 -> lanche.setCebola(false);
+                default -> throw new IllegalArgumentException("Opção inválida!");
+            }
+        }
+    }
+
+
 }

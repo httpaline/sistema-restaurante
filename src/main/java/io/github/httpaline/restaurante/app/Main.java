@@ -1,6 +1,7 @@
 package io.github.httpaline.restaurante.app;
 
 import io.github.httpaline.restaurante.cardapio.ItemCardapio;
+import io.github.httpaline.restaurante.cardapio.Lanche;
 import io.github.httpaline.restaurante.pedido.Pedido;
 
 public class Main {
@@ -18,7 +19,14 @@ public class Main {
                     do {
                         menu.exibirCardapio();
                         int opcaoCardapio = menu.lerOpcao();
-                        ItemCardapio item = sistema.criarLanche(opcaoCardapio);
+                        Lanche lanche = sistema.criarLanche(opcaoCardapio);
+
+                        if(menu.perguntarSimNao("Deseja retirar algum ingrediente?")){
+                            menu.exibirIngredientes();
+                            sistema.retirarIngredientes(lanche,menu.lerIngredientesParaRetirar());
+                        }
+
+                        ItemCardapio item = lanche;
 
                         int opcaoAdicional = -1;
                         do {
