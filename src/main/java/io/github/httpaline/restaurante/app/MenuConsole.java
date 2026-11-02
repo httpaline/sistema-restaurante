@@ -19,7 +19,8 @@ public class MenuConsole {
         System.out.println(LINHA_DUPLA);
         System.out.println(" [1] Registrar novo pedido");
         System.out.println(" [2] Listar pedidos do dia");
-        System.out.println(" [3] Fechar restaurante");
+        System.out.println(" [3] Modificar pedido");
+        System.out.println(" [4] Fechar restaurante");
         System.out.println(LINHA_SIMPLES);
         System.out.println(" [0] Sair");
         System.out.println(LINHA_DUPLA);
@@ -28,34 +29,34 @@ public class MenuConsole {
 
     public void exibirCardapio() {
         System.out.println();
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.println("            CARDÁPIO");
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.println(" [1] X-Burger          R$  16,00");
         System.out.println(" [2] X-Salada          R$  18,00");
         System.out.println(" [3] X-Bacon           R$  22,00");
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.print(" Escolha o lanche: ");
     }
 
     public void exibirAdicionais(){
         System.out.println();
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.println("           ADICIONAIS");
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.println(" [1] Cheddar         + R$   4,00");
         System.out.println(" [2] Bacon extra     + R$   6,00");
         System.out.println(LINHA_SIMPLES);
         System.out.println(" [0] Nenhum / finalizar");
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.print(" Escolha o adicional: ");
     }
 
     public void exibirIngredientes() {
         System.out.println();
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.println("      RETIRAR INGREDIENTES");
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.println(" [1] Queijo");
         System.out.println(" [2] Alface");
         System.out.println(" [3] Tomate");
@@ -63,8 +64,22 @@ public class MenuConsole {
         System.out.println(LINHA_SIMPLES);
         System.out.println(" Números separados por vírgula");
         System.out.println(" (ex: 3,4) ou Enter para nenhum");
-        System.out.println(LINHA_DUPLA);
+        System.out.println(LINHA_SIMPLES);
         System.out.print(" Retirar: ");
+    }
+
+    public void exibirMenuModificacao() {
+        System.out.println();
+        System.out.println(LINHA_SIMPLES);
+        System.out.println("        MODIFICAR PEDIDO");
+        System.out.println(LINHA_SIMPLES);
+        System.out.println(" [1] Acrescentar item");
+        System.out.println(" [2] Remover item");
+        System.out.println(" [3] Cancelar pedido");
+        System.out.println(LINHA_SIMPLES);
+        System.out.println(" [0] Voltar");
+        System.out.println(LINHA_SIMPLES);
+        System.out.print(" Opção: ");
     }
 
     public Set<Integer> lerIngredientesParaRetirar(){
@@ -88,6 +103,11 @@ public class MenuConsole {
         int opcao = sc.nextInt();
         sc.nextLine();
         return opcao;
+    }
+
+    public int lerOpcao(String pergunta){
+        System.out.print(" " + pergunta + " ");
+        return lerOpcao();
     }
 
     public void exibirMensagem(String mensagem) {
@@ -126,7 +146,7 @@ public class MenuConsole {
             System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, retiradas[0], item.getPreco());
 
             for(int i=1;i<retiradas.length;i++){
-                System.out.println("      - " + retiradas[i]);
+                System.out.println("      - sem " + retiradas[i]);
             }
 
             for(int i=1; i<partes.length;i++){
@@ -154,7 +174,7 @@ public class MenuConsole {
 
     public void exibirPedidos(Collection<Pedido> pedidos) {
         if (pedidos.isEmpty()) {
-            System.out.println("Não há pedidos!");
+            System.out.println(" Não há pedidos!");
             return;
         }
         for (Pedido pedido : pedidos) {
