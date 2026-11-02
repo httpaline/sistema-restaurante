@@ -15,14 +15,20 @@ public class Main {
             opcao = menu.lerOpcao();
             switch (opcao) {
                 case 1 -> {
-                    Pedido pedido = sistema.criarPedido(menu.lerNomeCliente());
-                    do {
-                        ItemCardapio item = getItem(menu, sistema);
-
-                        sistema.adicionarItem(pedido,item);
-
-                    } while (menu.perguntarMaisItem());
-                    menu.exibirPedido(pedido);
+                    try {
+                        Pedido pedido = sistema.criarPedido(menu.lerNomeCliente());
+                        do {
+                            try {
+                                ItemCardapio item = getItem(menu, sistema);
+                                sistema.adicionarItem(pedido, item);
+                            } catch (IllegalArgumentException e) {
+                                menu.exibirMensagem(e.getMessage());
+                            }
+                        } while (menu.perguntarMaisItem());
+                        menu.exibirPedido(pedido);
+                    } catch (IllegalArgumentException e) {
+                        menu.exibirMensagem(e.getMessage());
+                    }
                 }
 
                 case 2 -> menu.exibirPedidos(sistema.getPedidos());
@@ -57,7 +63,7 @@ public class Main {
 
                 case 4 -> {
                     double total = sistema.calcularTotalDoDia();
-                    menu.exibirFechamentoDoDia(total);
+                    menu.exibirFechamentoDoDia(total,sistema.getCombinacoesDoDia());
                     opcao = 0;
                 }
 
@@ -79,14 +85,10 @@ public class Main {
 
         ItemCardapio item = lanche;
 
-        int opcaoAdicional = -1;
-        do {
+        if (menu.perguntarSimNao("Deseja algum adicional?")) {
             menu.exibirAdicionais();
-            opcaoAdicional = menu.lerOpcao();
-            if (opcaoAdicional != 0) {
-                item = sistema.adicionarAdicional(item, opcaoAdicional);
-            }
-        } while (opcaoAdicional != 0);
+            item = sistema.adicionarAdicionais(item, menu.lerAdicionais());
+        }
         return item;
     }
 }
