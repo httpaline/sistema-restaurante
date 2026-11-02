@@ -33,6 +33,13 @@ public class Pedido {
         itens.add(lanche);
     }
 
+    public void removerItem( int numeroItem){
+        if (numeroItem < 1 || numeroItem > itens.size()) {
+            throw new IllegalArgumentException("Item inexistente: " + numeroItem);
+        }
+        itens.remove(numeroItem - 1);
+    }
+
     public ArrayList<ItemCardapio> getItens() {
         return itens;
     }

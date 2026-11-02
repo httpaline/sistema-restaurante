@@ -18,6 +18,13 @@ public class GerenciadorPedidos {
         return pedidos.get(numero);
     }
 
+    public void cancelarPedido(int numero){
+        if(!pedidos.containsKey(numero)){
+            throw new IllegalArgumentException("Pedido inexistente: " + numero);
+        }
+        pedidos.remove(numero);
+    }
+
     public double calcularTotalDoDia() {
         double total = 0.0;
         for (Pedido pedido : pedidos.values()) {

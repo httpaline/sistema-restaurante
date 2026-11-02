@@ -55,5 +55,17 @@ public class RestauranteFacade {
         }
     }
 
+    public Pedido buscarPedido(int numero){
+        return gerenciador.buscarPedido(numero);
+    }
+
+    public void removerItem(Pedido pedido, int numeroItem){
+        pedido.removerItem(numeroItem);
+    }
+
+    public void cancelarPedido(int numeroPedido){
+        gerenciador.cancelarPedido(numeroPedido);
+    }
+
 
 }
