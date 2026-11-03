@@ -1,7 +1,11 @@
 package io.github.httpaline.restaurante.pedido;
 
+import io.github.httpaline.restaurante.cardapio.ItemCardapio;
+
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GerenciadorPedidos {
     private final HashMap<Integer, Pedido> pedidos = new HashMap<>();
@@ -31,6 +35,18 @@ public class GerenciadorPedidos {
             total += pedido.calcularTotal();
         }
         return total;
+    }
+
+    public Set<String> getCombinacoesDoDia(){
+        Set<String> combinacoes = new HashSet<>();
+
+        for(Pedido pedido : pedidos.values()){
+            for(ItemCardapio item : pedido.getItens()){
+                combinacoes.add(item.getDescricao());
+            }
+        }
+
+        return combinacoes;
     }
 
     public Collection<Pedido> getPedidos() {

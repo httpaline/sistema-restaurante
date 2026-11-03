@@ -5,6 +5,7 @@ import io.github.httpaline.restaurante.pedido.GerenciadorPedidos;
 import io.github.httpaline.restaurante.pedido.Pedido;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class RestauranteFacade {
@@ -43,6 +44,13 @@ public class RestauranteFacade {
         };
     }
 
+    public ItemCardapio adicionarAdicionais(ItemCardapio item, List<Integer> adicionais) {
+        for (int opcao : adicionais) {
+            item = adicionarAdicional(item, opcao);
+        }
+        return item;
+    }
+
     public void retirarIngredientes(Lanche lanche, Set<Integer> ingredientes){
         for(int numero : ingredientes){
             switch (numero){
@@ -65,6 +73,10 @@ public class RestauranteFacade {
 
     public void cancelarPedido(int numeroPedido){
         gerenciador.cancelarPedido(numeroPedido);
+    }
+
+    public Set<String> getCombinacoesDoDia(){
+       return gerenciador.getCombinacoesDoDia();
     }
 
 

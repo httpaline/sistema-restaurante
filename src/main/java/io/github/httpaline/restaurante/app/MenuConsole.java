@@ -1,11 +1,8 @@
 package io.github.httpaline.restaurante.app;
-
 import io.github.httpaline.restaurante.cardapio.ItemCardapio;
 import io.github.httpaline.restaurante.pedido.Pedido;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+
+import java.util.*;
 
 public class MenuConsole {
     private static final String LINHA_DUPLA = "================================";
@@ -39,7 +36,7 @@ public class MenuConsole {
         System.out.print(" Escolha o lanche: ");
     }
 
-    public void exibirAdicionais(){
+    public void exibirAdicionais() {
         System.out.println();
         System.out.println(LINHA_SIMPLES);
         System.out.println("           ADICIONAIS");
@@ -47,9 +44,8 @@ public class MenuConsole {
         System.out.println(" [1] Cheddar         + R$   4,00");
         System.out.println(" [2] Bacon extra     + R$   6,00");
         System.out.println(LINHA_SIMPLES);
-        System.out.println(" [0] Nenhum / finalizar");
-        System.out.println(LINHA_SIMPLES);
-        System.out.print(" Escolha o adicional: ");
+        System.out.println(" (ex: 1,2) ou Enter para nenhum");
+        System.out.print(" Adicionar: ");
     }
 
     public void exibirIngredientes() {
@@ -82,27 +78,45 @@ public class MenuConsole {
         System.out.print(" Opção: ");
     }
 
-    public Set<Integer> lerIngredientesParaRetirar(){
-        Set<Integer> numeros = new HashSet<>();
-        String linha = sc.nextLine().trim();
+    private List<Integer> lerNumeros() {
+        while (true) {
+            List<Integer> numeros = new ArrayList<>();
+            String linha = sc.nextLine().trim();
 
-        if(linha.isEmpty()){
-            return numeros;
+            if (linha.isEmpty()) {
+                return numeros;
+            }
+
+            try {
+                for (String parte : linha.split(",")) {
+                    numeros.add(Integer.parseInt(parte.trim()));
+                }
+                return numeros;
+            } catch (NumberFormatException e) {
+                System.out.print(" Use apenas números separados por vírgula: ");
+            }
         }
+    }
 
-        String[] partes = linha.split(",");
+    public Set<Integer> lerIngredientesParaRetirar() {
+        return new HashSet<>(lerNumeros());
+    }
 
-        for(String parte : partes){
-            numeros.add(Integer.parseInt(parte.trim()));
-        }
-
-        return numeros;
+    public List<Integer> lerAdicionais() {
+        return lerNumeros();
     }
 
     public int lerOpcao() {
-        int opcao = sc.nextInt();
-        sc.nextLine();
-        return opcao;
+        while (true) {
+            try {
+                int opcao = sc.nextInt();
+                sc.nextLine();
+                return opcao;
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                System.out.print(" Digite apenas números: ");
+            }
+        }
     }
 
     public int lerOpcao(String pergunta){
@@ -131,6 +145,22 @@ public class MenuConsole {
         return sc.nextLine();
     }
 
+    private String nomeBase(String descricao) {
+        return descricao.split(" \\+ ")[0].split(" sem ")[0];
+    }
+
+    private void exibirDetalhes(String descricao) {
+        String[] partes = descricao.split(" \\+ ");
+        String[] retiradas = partes[0].split(" sem ");
+
+        for (int i = 1; i < retiradas.length; i++) {
+            System.out.println("      - sem " + retiradas[i]);
+        }
+        for (int i = 1; i < partes.length; i++) {
+            System.out.println("      + " + partes[i]);
+        }
+    }
+
     public void exibirPedido(Pedido pedido) {
         System.out.println();
         System.out.println(LINHA_DUPLA);
@@ -141,18 +171,9 @@ public class MenuConsole {
 
         int numeroItem = 1;
         for (ItemCardapio item : pedido.getItens()) {
-            String[] partes = item.getDescricao().split(" \\+ ");
-            String[] retiradas = partes[0].split(" sem ");
-            System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, retiradas[0], item.getPreco());
-
-            for(int i=1;i<retiradas.length;i++){
-                System.out.println("      - sem " + retiradas[i]);
-            }
-
-            for(int i=1; i<partes.length;i++){
-                System.out.println("      + " + partes[i]);
-            }
-
+            String descricao = item.getDescricao();
+            System.out.printf(" %d. %-18s R$ %6.2f%n", numeroItem, nomeBase(descricao), item.getPreco());
+            exibirDetalhes(descricao);
             numeroItem++;
         }
 
@@ -161,12 +182,21 @@ public class MenuConsole {
         System.out.println(LINHA_DUPLA);
     }
 
-    public void exibirFechamentoDoDia(double total) {
+    public void exibirFechamentoDoDia(double total, Set<String> combinacoes) {
         System.out.println();
         System.out.println(LINHA_DUPLA);
         System.out.println("       FECHAMENTO DO DIA");
         System.out.println(LINHA_DUPLA);
         System.out.printf(" %-21s R$ %6.2f%n", "Total vendido", total);
+        System.out.println(LINHA_SIMPLES);
+        System.out.println(" Combinações diferentes: " + combinacoes.size());
+        System.out.println(LINHA_SIMPLES);
+
+        for (String combinacao : combinacoes) {
+            System.out.println(" - " + nomeBase(combinacao));
+            exibirDetalhes(combinacao);
+        }
+
         System.out.println(LINHA_DUPLA);
         System.out.println("Restaurante fechado. Até amanhã!");
         System.out.println(LINHA_DUPLA);
